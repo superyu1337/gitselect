@@ -1,0 +1,30 @@
+[package]
+name = "gitselect"
+version = "0.1.0"
+authors = ["hsaunders1904 <33317174+hsaunders1904@users.noreply.github.com>", "Janek S <development@superyu.xyz>"]
+description = "Command line utility to interactively select a git branch"
+edition = "2021"
+readme = "README.md"
+repository = "https://github.com/superyu1337/gitselect"
+license = "GPL-3.0-or-later"
+keywords = ["git", "console"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+name = "gitselect"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5.20", features = ["derive"] }
+dialoguer = { version = "0.11.0", default-features = false }
+thiserror = "1.0.64"
+
+[dev-dependencies]
+same-file = "1.0.6"
+tempfile = "3.13.0"
+
+[profile.release]
+strip = true  # strip symbols from the binary.
+opt-level = "z"  # optimize for size; we're not so worried about speed
+codegen-units = 1
+lto = true
