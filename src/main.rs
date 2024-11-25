@@ -1,4 +1,5 @@
 use clap::Parser;
+use git::BranchType;
 
 mod git;
 mod select;
@@ -43,7 +44,13 @@ fn bselect(
     let branches = filter(branch_getter.branches()?, args.local)?;
     let selected_branch = selector.select_branch(branches)?;
     
-    writeln!(stdout, "{}", selected_branch.name)
+    let branch_name = if selected_branch.branch_type == BranchType::Remote {
+        let mut n = selected_branch.name.clone();
+        n.replace_range(0..7, "");
+        n
+    } else { selected_branch.name };
+
+    writeln!(stdout, "{}", branch_name)
         .map_err(|e| Error::Terminal(format!("cannot write to stdout: {e}")))
 }
 
